@@ -2,6 +2,7 @@ import { Router } from "express";
 import { 
   createQuiz, 
   getQuizzes, 
+  getQuizById,
   updateQuiz, 
   deleteQuiz 
 } from "../controllers/quize.ts";
@@ -50,6 +51,29 @@ router.post("/quizzes", createQuiz);
  *         description: Error fetching quizzes
  */
 router.get("/quizzes", getQuizzes);
+
+/**
+ * @swagger
+ * /quizzes/{id}:
+ *   get:
+ *     summary: Get a quiz by ID
+ *     description: Fetch a quiz by its unique ID.
+ *     tags: [Quizzes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved quiz
+ *       404:
+ *         description: Quiz not found
+ *       500:
+ *         description: Error fetching quiz
+ */
+router.get("/quizzes/:id", getQuizById);
 
 /**
  * @swagger

@@ -37,8 +37,8 @@ export const getQuizById = async (req: Request, res: Response) => {
       where: { id },
       select: { id: true, title: true, description: true, createdAt: true },
     });
-    if (!quiz) return res.status(404).json({ error: "Quiz not found" });
-    res.json(quiz);
+    if (!quiz) res.status(404).json({ error: "Quiz not found" });
+    else res.json(quiz);
   } catch (error) {
     res.status(500).json({ error: "Error fetching quiz" });
   }
