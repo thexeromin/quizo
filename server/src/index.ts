@@ -1,6 +1,7 @@
 import cors from "cors"
 import dotenv from 'dotenv'
 import express, { Request, Response } from "express"
+import { setupSwagger } from "./config/swagger.ts";
 
 dotenv.config()
 
@@ -14,11 +15,10 @@ import quizeRoutes from "./routes/quize.ts";
 app.use(cors());
 app.use(express.json());
 
+setupSwagger(app);
+
 // routes
-app.use('/api', quizeRoutes)
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).send("Hello, World!");
-});
+app.use('/', quizeRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server listening on PORT ${PORT}`);
