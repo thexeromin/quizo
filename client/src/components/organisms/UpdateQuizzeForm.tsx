@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 
 import { addQuizSchema, AddQuizeFormData } from "@/schemas";
 import { Button } from "@/components/atoms/button";
@@ -18,7 +18,6 @@ import { Textarea } from "@/components/atoms/textarea";
 import { updateQuizAPI } from "@/api";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/auth";
-
 import { Quiz } from "@/types";
 
 interface Props {
@@ -26,7 +25,7 @@ interface Props {
 }
 
 export default function UpdateQuizzeForm(props: Props) {
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { quiz } = props;
   const { toast } = useToast();
   const { userId } = useAuth();
@@ -53,7 +52,7 @@ export default function UpdateQuizzeForm(props: Props) {
           description: "Your quiz has been updated successfully.",
         });
         form.reset();
-        queryClient.invalidateQueries({ queryKey: ["quizze"] });
+        navigate("/dashboard");
       })
       .catch((err) =>
         toast({
