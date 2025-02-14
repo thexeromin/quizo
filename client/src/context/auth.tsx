@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import { useNavigate } from "react-router";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -10,14 +17,28 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [userId, setUserId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(
+    localStorage.getItem("userId")
+  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userId) {
+      localStorage.setItem("userId", userId);
+    } else {
+      localStorage.removeItem("userId");
+    }
+  }, [userId]);
 
   const login = (id: string) => {
     setUserId(id);
+    navigate("/dashboard");
   };
 
   const logout = () => {
     setUserId(null);
+    localStorage.removeItem("userId");
+    navigate("/login");
   };
 
   return (

@@ -15,8 +15,13 @@ import {
 } from "@/components/atoms/form";
 import { Input } from "@/components/atoms/input";
 import AuthDialog from "@/components/molecules/AuthDialog";
+import { loginUserAPI } from "@/api";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/auth";
 
 export default function LoginForm() {
+  const { toast } = useToast();
+  const { login } = useAuth();
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -25,8 +30,16 @@ export default function LoginForm() {
     },
   });
 
-  function onSubmit(data: LoginFormData) {
-    console.log(data);
+  async function onSubmit(data: LoginFormData) {
+    await loginUserAPI(data.email, data.password)
+      .then((data) => login(data.userId))
+      .catch((err) =>
+        toast({
+          variant: "destructive",
+          title: "Oops! Something went wrong.",
+          description: err.error || "Invalid credentials",
+        })
+      );
   }
 
   return (
