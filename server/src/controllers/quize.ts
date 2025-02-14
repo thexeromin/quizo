@@ -17,7 +17,7 @@ export const createQuiz = async (req: Request, res: Response) => {
 };
 
 // Get all quizzes
-export const getQuizzes = async (req: Request, res: Response) => {
+export const getQuizzes = async (_req: Request, res: Response) => {
   try {
     const quizzes = await prisma.quiz.findMany({
       select: { id: true, title: true, description: true, createdAt: true },

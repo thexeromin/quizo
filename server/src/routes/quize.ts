@@ -5,7 +5,7 @@ import {
   getQuizById,
   updateQuiz, 
   deleteQuiz 
-} from "../controllers/quize.ts";
+} from "../controllers/quize";
 
 const router = Router();
 
