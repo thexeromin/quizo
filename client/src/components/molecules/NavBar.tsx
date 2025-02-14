@@ -2,16 +2,20 @@ import { useState } from "react";
 import { X, AlignJustify } from "lucide-react";
 import Logo from "../atoms/Logo";
 import { Button } from "../atoms/button";
+import { Link } from "react-router";
+import { useAuth } from "@/context/auth";
 
 export default function NavBar() {
+  const { isAuthenticated, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const links = ["Home", "About", "Quizzes", "Contact"];
 
   return (
     <nav className="w-full flex justify-between items-center p-5 bg-white border-b border-gray-300">
-      <Logo />
+      <Link to="/">
+        <Logo />
+      </Link>
 
       {/* Desktop Menu */}
       <ul className="hidden md:flex space-x-6 text-black font-medium">
@@ -23,12 +27,15 @@ export default function NavBar() {
       </ul>
 
       {/* Sign In / Sign Out Button */}
-      <button
-        className="hidden md:block bg-black text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition"
-        onClick={() => setIsAuthenticated(!isAuthenticated)}
-      >
-        {isAuthenticated ? "Logout" : "Login"}
-      </button>
+      <div className="hidden md:block">
+        {isAuthenticated ? (
+          <Button onClick={logout}>Logout</Button>
+        ) : (
+          <Link to="/login">
+            <Button>Login</Button>
+          </Link>
+        )}
+      </div>
 
       {/* Mobile Menu Button */}
       <Button
@@ -53,15 +60,13 @@ export default function NavBar() {
             </li>
           ))}
           <li>
-            <button
-              className="bg-black text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition"
-              onClick={() => {
-                setIsAuthenticated(!isAuthenticated);
-                setIsOpen(false);
-              }}
-            >
-              {isAuthenticated ? "Logout" : "Login"}
-            </button>
+            {isAuthenticated ? (
+              <Button onClick={logout}>Logout</Button>
+            ) : (
+              <Link to="/login">
+                <Button>Login</Button>
+              </Link>
+            )}
           </li>
         </ul>
       )}
