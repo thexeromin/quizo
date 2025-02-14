@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import RedirectOnLogged from "./utils/RedirectOnLogged";
+import AddQuizze from "./pages/AddQuizze";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
 
       <Route element={<ProtectedRoutes />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/add-quizze" element={<AddQuizze />} />
       </Route>
     </Routes>
   );

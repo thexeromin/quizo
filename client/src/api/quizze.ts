@@ -15,6 +15,22 @@ export async function getQuizzesAPI(): Promise<Quiz[]> {
   }
 }
 
+export async function addQuizAPI(
+  title: string,
+  description: string,
+  userId: string
+): Promise<void> {
+  try {
+    await axios.post(`${API}/quizzes`, { title, description, userId });
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.error || "Failed to save quiz");
+    } else {
+      throw new Error("Something went wrong");
+    }
+  }
+}
+
 export async function updateQuizAPI(
   id: string,
   title: string,
