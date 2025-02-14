@@ -15,6 +15,19 @@ export async function getQuizzesAPI(): Promise<Quiz[]> {
   }
 }
 
+export async function getQuizzeAPI(id: string): Promise<Quiz> {
+  try {
+    const response = await axios.get<Quiz>(`${API}/quizzes/${id}`);
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.error || "Failed to fetch quizzes");
+    } else {
+      throw new Error("Something went wrong");
+    }
+  }
+}
+
 export async function addQuizAPI(
   title: string,
   description: string,

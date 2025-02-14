@@ -8,13 +8,14 @@ import {
   CardTitle,
 } from "@/components/atoms/card";
 import { format } from "date-fns";
+import { Link } from "react-router";
 
 interface Props {
   id: string;
   title: string;
   description: string;
   createdAt: string;
-  onDelete(id: string): void
+  onDelete(id: string): void;
 }
 
 export default function QuizzeCard(props: Props) {
@@ -28,10 +29,16 @@ export default function QuizzeCard(props: Props) {
         <p>{format(new Date(props.createdAt), "MMMM d, yyyy 'at' h:mm a")}</p>
       </CardContent>
       <CardFooter className="flex justify-center items-center gap-2">
-        <Button variant="outline" size="sm">
-          Update
-        </Button>
-        <Button variant="destructive" size="sm" onClick={() => props.onDelete(props.id)}>
+        <Link to={`/update/${props.id}`}>
+          <Button variant="outline" size="sm">
+            Update
+          </Button>
+        </Link>
+        <Button
+          variant="destructive"
+          size="sm"
+          onClick={() => props.onDelete(props.id)}
+        >
           Delete
         </Button>
       </CardFooter>
